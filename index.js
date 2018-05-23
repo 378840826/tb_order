@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:29:00+08:00
  * @Filename: index.js
- * @Last modified time: 2018-05-23T11:01:46+08:00
+ * @Last modified time: 2018-05-23T11:11:54+08:00
  */
 
 
@@ -340,7 +340,7 @@ var loadList = function(pageNum = 1) {
                 showList(list)
                 // 显示数目
                 var sum = e('.div-sum')
-                sum.querySelector('span').innerText = res.data.total || 0
+                sum.querySelector('span').innerText = res.total || 0
                 // 加载分页
                 loadPagination(res, 4)
                 // 设置表格容器高度
