@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,Chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>淘宝订单导出</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="pagination.css">
+    <!-- 时间选择器 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="zh.js"></script>
+</head>
+<body>
+    <div class="container-head">
+        <div class="">
+            <img class="logo" src="img/logo.png" alt="logo">
+        </div>
+        <!-- 导航 -->
+        <div class="home-page">
+            <div class="left">
+                <div class="statement">
+                    <p><i class="dot"></i>为历史对账而生</p>
+                    <p class="font-5"><i class="dot"></i>爬虫实时抓取</p>
+                    <p><i class="dot"></i>不保留订单数据</p>
+                    <p><i class="dot"></i>不窃取隐私信息</p>
+                    <p class="font-5"><i class="dot"></i>要用就用起来</p>
+                </div>
+            </div>
+            <div class="right">
+                <div class="div-scan-qrcode">
+                    <div class="refresh">
+                        <span class="scan-security">手机扫码，安全可靠</span>
+                        <img class="img-refresh" src="img/刷新.png" alt="刷新" title="刷新二维码">
+                    </div>
+                    <div class="div-qrcode"></div>
+                    <div class="">
+                        <div class="div-explain">
+                            <img class="img-scan" src="img/扫一扫.png" alt="">
+                            <span class="span-explain">本工具无需注册登录，打开<span>手机淘宝</span>或<span>手机天猫</span>扫一扫， 即可查看&下载订单</span>
+                        </div>
+                        <span class="button-scan button">我已扫码</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="timing none">
+            <span class="button-logout"><img src='img/退出.png'> 退出</span>
+            <span class="time-select-string">订单创建时间：</span>
+            <div class="drop-down-time">
+                <div class="button-time">
+                    <div class="select-time">
+                        <span id="id-select-time" data-day='0'>请选择周期</span>
+                    </div>
+                    <img class="arrow-down" src="img/向下箭头.png" alt="">
+                </div>
+                <ul class="ul-time none">
+                    <li class="li-time" data-day='all'>全部</li>
+                    <li class="li-time" data-day='1'>最近1天</li>
+                    <li class="li-time" data-day='7'>最近7天</li>
+                    <li class="li-time" data-day='30'>最近30天</li>
+                    <li class="li-time" data-day='90'>最近90天</li>
+                    <li class="li-time flatpickr-select">自定义</li>
+                </ul>
+            </div>
+            <div class="div-button-export">
+                <span class="button-export button disabled">导出</span>
+            </div>
+            <div class="div-date-container none">
+                <img class="img-calendar" src="img/日历.png" alt="">
+                <div class="div-date">
+                    <span class="span-date-start"></span>
+                    <span>至</span>
+                    <span class="span-date-end"></span>
+                </div>
+                <div class="div-flatpickr hidden">
+                    <div class="div-input-flatpickr">
+                        <input id="id-date-start" class="flatpickr" type="text" placeholder="起始时间" value="">
+                    </div>
+                    <span>至</span>
+                    <div class="div-input-flatpickr">
+                        <input id="id-date-end" class="flatpickr" type="text" placeholder="截至时间" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="initial-explain none">
+            <div class="statement statement-a">
+                <p><i class="dot"></i>为历史对账而生</p>
+                <p class="font-5"><i class="dot"></i>爬虫实时抓取</p>
+                <p><i class="dot"></i>不保留订单数据</p>
+                <p><i class="dot"></i>不窃取隐私信息</p>
+                <p class="font-5"><i class="dot"></i>要用就用起来</p>
+            </div>
+            <p class="export-explain">选择周期可生成订单报表，支持一键导出，等待时间可能比较长，请耐心等候。</p>
+        </div>
+    </div>
+    <!-- 内容 -->
+    <div class="container-content">
+        <div class="div-sum none">
+            共<span> </span>个订单
+        </div>
+        <div class="div-table none">
+            <table class='table-list' cellpadding=0 cellspacing=0>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination none">
+            <div class="pg-content">
+                <span class="pg-item" data-value="1">首页</span>
+                <span class="pg-item last-pg">&lt;</span>
+                <span class="pg-num"></span>
+                <span class="pg-item next-pg">&gt;</span>
+                <span class="pg-item pg-item" data-value="999">尾页</span>
+                <span class="pg-total">1/30</span>
+                <span class="pg-select">
+                    每页显示：
+                    <select id="pg-seId">
+                        <option value="20" selected="">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <i class="arrow"></i>
+                </span>
+                <span class="span-pg-go">
+                    转到
+                    <input type="text" class="pg-go" value="" onkeyup="if(this.value.length==1)
+                    {this.value=this.value.replace(/[^1-9]/g,'')}
+                    else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1)
+                    {
+                    this.value=this.value.replace(/[^1-9]/g,'')}
+                    else{this.value=this.value.replace(/\D/g,'')}">页
+                    <button class="btn-go">GO</button>
+                </span>
+            </div>
+        </div>
+        <div class="div-error none">
+            <img src="img/提示.png" alt="提示">
+            <p>网络错误或无数据</p>
+        </div>
+    </div>
+    <script src="xie.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

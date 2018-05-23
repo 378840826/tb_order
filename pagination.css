@@ -1,0 +1,129 @@
+/*
+* @Author: tomystery
+* @Date:   2017-09-11 11:12:48
+ * @Last modified by:
+ * @Last modified time: 2018-05-22T11:29:11+08:00
+*/
+
+.pagination {
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+.pg-content {
+    text-align: center;
+    color: #333;
+}
+
+.pg-content .pg-item {
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    width: 28px;
+    margin: 0 2px;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    box-sizing: border-box;
+}
+
+.pg-content .pg-item-num:hover {
+    border: 1px solid #0976CD;
+    border-radius: 50%;
+}
+
+.pg-content .pg-item.disabled {
+    color: #ccc;
+    background: none;
+    cursor: auto;
+    pointer-events: none;
+}
+
+.pg-content .pg-item.active {
+    border: 1px solid #0976CD;
+    background: #0976CD;
+    color: #fff;
+    border-radius: 50%;
+    cursor: auto;
+    pointer-events: none;
+}
+
+.pg-content #pg-seId {
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    outline: none;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0);
+    cursor: pointer;
+    padding-left: 4px;
+}
+
+.pg-content #pg-seId option {
+    text-align: center;
+}
+
+.pg-content .pg-go {
+    display: inline-block;
+    height: 30px;
+    width: 40px;
+    line-height: 30px;
+    margin: 0 2px;
+    text-align: center;
+    border: none;
+    outline: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.pg-content .span-pg-go {
+    margin-left: 20px;
+}
+
+.pg-content .btn-go {
+    background-color: #fff;
+    height: 30px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.pg-content .pg-select {
+    position: relative;
+}
+
+.pg-content .arrow {
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    transform: translateY(0%)rotate(45deg);
+    z-index: -1;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+}
+
+.pg-content .pg-total {
+    margin: 0 10px;
+}
+
+select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}

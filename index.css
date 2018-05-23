@@ -1,0 +1,512 @@
+/**
+ * @Date:   2018-04-27T15:28:59+08:00
+ * @Filename: index.css
+ * @Last modified time: 2018-05-22T17:37:13+08:00
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul, li {
+    list-style: none;
+}
+
+.logo {
+    margin: 30px 0;
+}
+
+.button-logout {
+    position: fixed;
+    top: 36px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.button-logout img {
+    width: 20px;
+    height: 18px;
+    vertical-align: bottom;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.container-head {
+    margin: 0 20px;
+}
+
+.disabled.button {
+    pointer-events: none;
+    background: #ccc;
+    color: #fff;
+}
+
+.home-page {
+    display: flex;
+    margin-top: 100px;
+}
+
+.none {
+    display: none;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.left {
+    flex: 1;
+    text-align: center;
+}
+
+.right {
+    text-align: center;
+    flex: 1;
+}
+
+.div-scan-qrcode {
+    display: inline-block;
+    width: 400px;
+    height: 500px;
+    box-shadow: 0px 0px 10px 4px rgba(100, 100, 100, .175);
+}
+
+.statement {
+    display: inline-block;
+    width: 400px;
+    height: 500px;
+    box-shadow: 0px 0px 10px 4px rgba(100, 100, 100, .175);
+}
+
+.statement p {
+    font-size: 35px;
+    margin: 40px;
+}
+
+.statement-a {
+    width: 333px;
+    height: 331px;
+    display: block;
+    margin: 0 auto;
+    padding: 1px;
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.statement-a p {
+    font-size: 35px;
+    margin: 15px 27px;
+}
+
+.statement .font-5 {
+    letter-spacing: 6px;
+}
+
+.statement p .dot {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 10px;
+    background: #0976CD;
+    box-shadow: 0px 0px 0px 4px rgba(9, 118, 205, 0.5);
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.export-explain {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+}
+
+.div-explain {
+    display: flex;
+    padding: 0 20px;
+    font-size: 17px;
+}
+
+.img-scan {
+    flex: 1;
+    height: 43px;
+}
+
+.span-explain {
+    flex: 6;
+    letter-spacing: 0.5px;
+}
+
+.span-explain span {
+    color: #FF9900;
+}
+
+.timing {
+    margin: 0 auto;
+}
+
+.time-select-string {
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.input {
+    line-height: 30px;
+    border: 1px solid #E6E6E6;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.refresh {
+    margin-top: 20px;
+}
+
+.img-refresh {
+    width: 20px;
+    cursor: pointer;
+    vertical-align: bottom;
+    margin-left: 15px;
+}
+
+.scan-security {
+    font-size: 20px;
+}
+
+.div-qrcode {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    height: 300px;
+}
+
+.img-qrcode {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    width: 300px;
+}
+
+.button-scan {
+    display: inline-block;
+    padding: 10px 30px;
+    border: 2px solid;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.div-button-export {
+    display: inline-block;
+    position: relative;
+}
+
+/*时间选择*/
+
+.button-time {
+    position: relative;
+    display: inline-block;
+    width: 240px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.arrow-down {
+    width: 12px;
+    float: right;
+    top: 10px;
+    position: relative;
+}
+
+.timing input {
+    border: none;
+}
+
+.timing input:focus {
+    outline: none;
+}
+
+.drop-down-time {
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 30px;
+    line-height: 30px;
+}
+
+.select-time {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+#id-select-time {
+    padding-left: 10px;
+}
+
+.ul-time {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px 3px rgba(9, 118, 205, .175);
+    z-index: 99;
+    border-radius: 5px;
+}
+
+.ul-time li {
+    width: 230px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.ul-time li:hover {
+    background: #ebf1f5;
+}
+
+.date-title {
+    height: 30px;
+    background: #eee;
+}
+
+.div-date-container {
+    margin-top: 10px;
+    margin-left: 137px;
+    color: #777;
+}
+
+.div-date {
+    font-size: 15px;
+    display: inline-block;
+}
+
+.span-date-start, .span-date-end {
+    display: inline-block;
+    width: 150px;
+}
+
+.div-input-flatpickr input {
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.div-flatpickr .flatpickr {
+    width: 143px;
+}
+
+.div-input-flatpickr {
+    position: relative;
+    display: inline-block;
+    width: 153px;
+    border-radius: 5px;
+    border: 1px solid #E6E6E6;
+}
+
+.button-export {
+    background: #0976CD;
+    color: #fff;
+    padding: 2px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.img-calendar {
+    width: 20px;
+    vertical-align: bottom;
+}
+
+.div-flatpickr {
+    margin: 5px 0 5px 20px;
+    font-size: 15px;
+}
+
+.container-content {
+    margin-top: 30px;
+    margin: 20px;
+    position: relative;
+    overflow: hidden;
+    min-width: 1200px;
+}
+
+/*--loading*/
+
+@keyframes load {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #e6e6e6;
+    border-left: 2px solid #0976CD;
+    animation: load 1s linear infinite;
+    -moz-animation: load 1s linear infinite;
+    -webkit-animation: load 1s linear infinite;
+    -o-animation: load 1s linear infinite;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 100px;
+}
+
+.mini-loading {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #e6e6e6;
+    border-left: 2px solid #0976CD;
+    animation: load 1s linear infinite;
+    margin-right: auto;
+    margin-left: auto;
+    position: absolute;
+    top: -2px;
+    left: 25px;
+}
+
+/*loading--*/
+
+
+/*--table*/
+
+.div-table .table-list tr:nth-child(2n) {
+    background: #F7FAFC;
+}
+
+/*特殊情况*/
+._table-head-hide {
+    background: #F7FAFC;
+}
+
+.div-sum {
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.div-table {
+    overflow: auto;
+    font-size: 16px;
+    width: 100%;
+    /*为了避免被浮动表头覆盖*/
+    opacity: 0.99;
+}
+
+.container-content th, td {
+    border-left: 1px solid #E6E6E6;
+    border-right: 1px solid #E6E6E6;
+    text-align: center;
+    padding: 10px;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+.container-content td {
+    color: #777;
+    font-size: 14px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.container-content tr:hover {
+    outline: 1px solid #0976CD;
+}
+
+.container-content .table-head:hover {
+    outline: none;
+}
+
+.table-head {
+    border-top: 1px solid #ddd;
+}
+
+.table-head th span {
+    display: inline-block;
+}
+
+.container-content table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.container-content .blue {
+    background-color: #0976CD !important;
+    color: #fff;
+}
+
+.container-content .blue:hover {
+    background-color: #0976CD;
+}
+
+.container-content .head-hover {
+    background: #fafafa;
+}
+
+.成交时间, .付款时间 {
+    width: 4.9em;
+}
+
+.商品图片 {
+    width: 80px;
+}
+
+.商品名称 {
+    width: 5em;
+}
+
+.商品链接, .店铺链接 {
+    width: 5em;
+}
+
+.规格属性1, .规格属性2 {
+    width: 5em;
+}
+
+.支付宝交易号, .商家名称, .商家电话, .收获地址 {
+    width: 6em;
+}
+
+.商品数量, .运费 {
+    width: 2.5em;
+}
+
+.商品价格, .商品优惠（C店）, .店铺优惠（天猫）, .商品真实单价, .商品总价, .订单总价 {
+    width: 4.5em;
+}
+
+.订单号, .买家旺旺, .商家旺旺, .运单号 {
+    width: 4.8em;
+}
+
+.物流公司, .订单状态, .运送方式, .店铺名称, .城市 {
+    width: 4em;
+}
+
+.买家留言 {
+    width: 5em;
+}
+
+.img-商品图片 {
+    width: 80px;
+}
+
+/*table--*/
+
+/*--error*/
+.div-error {
+    text-align: center;
+    margin-top: 200px;
+    font-size: 20px;
+}
+
+.div-error p {
+    margin-top: 30px;
+}
+/*error--*/
