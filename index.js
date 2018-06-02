@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:29:00+08:00
  * @Filename: index.js
- * @Last modified time: 2018-05-23T11:11:54+08:00
+ * @Last modified time: 2018-05-29T17:51:19+08:00
  */
 
 
@@ -17,6 +17,9 @@ var urlObj = {
     downloadList: '/service/download',
     // 判断是否已经扫码
     isLogin: 'http://local.workics.cn:3000/mock/51/isLogin',
+    // 获取数据爬取进度
+    // getRate: '/service/getRate',
+    getRate: 'http://local.workics.cn:3000/mock/51/getRate',
 }
 
 // 点击刷新(获取二维码)
@@ -58,7 +61,7 @@ var bindScan = function() {
 }
 
 // 轮询是否已经登录（扫码）
-var polling = function(num) {
+var polling = function(num=1000) {
     timer2 = setInterval(function() {
         isLogin()
     }, num)
@@ -119,7 +122,8 @@ var createTable = function(list) {
         l['支付宝交易号show'] = l['支付宝交易号'].length < 10 ? l['支付宝交易号'] : l['支付宝交易号'].slice(0, 10) + '...'
         l['物流公司show'] = l['物流公司'].length < 6 ? l['物流公司'] : l['物流公司'].slice(0, 4) + '...'
         l['买家留言show'] = l['买家留言'].length < 10 ? l['买家留言'] : l['买家留言'].slice(0, 8) + '...'
-        l['收获地址show'] = l['收获地址'].length < 10 ? l['收获地址'] : l['收获地址'].slice(0, 8) + '...'
+        l['收货地址show'] = l['收货地址'].length < 10 ? l['收货地址'] : l['收货地址'].slice(0, 8) + '...'
+        l['优惠描述show'] = l['优惠描述'].length < 10 ? l['优惠描述'] : l['优惠描述'].slice(0, 8) + '...'
         // 生成 html
         var tr = ''
         for (var j = 0; j < keys.length; j++) {
@@ -127,7 +131,7 @@ var createTable = function(list) {
             var value = l[key]
             if (key.slice(-4) == 'show') {
                 continue
-            } else if (key == '商品名称' || key == '规格属性1' || key == '规格属性2' || key == '买家旺旺' || key == '支付宝交易号' || key == '物流公司' || key == '买家留言' || key == '店铺链接' || key == '收获地址') {
+            } else if (key == '商品名称' || key == '规格属性1' || key == '规格属性2' || key == '买家旺旺' || key == '支付宝交易号' || key == '物流公司' || key == '买家留言' || key == '店铺链接' || key == '收货地址' || key == '优惠描述') {
                 // 太长 需要 hover 效果的
                 var k = key + 'show'
                 // 半角空格替换为全角空格，不然 title 显示错误
@@ -308,13 +312,44 @@ var bindPagination = function() {
     })
 }
 
+// 轮询进度
+var pollingRate = function(time=1000) {
+    getRate()
+    rate_timer_1 = setInterval(function() {
+        getRate()
+    }, time)
+}
+
+// 获取进度
+var getRate = function() {
+    var resCallback = function(r) {
+        var rate = JSON.parse(r.response).rate
+        if (rate == 100) {
+            // 数据爬取完成
+            if (rate_timer_1) {
+                window.clearInterval(rate_timer_1)
+            }
+            loadList()
+        } else {
+            // 展示进度信息
+            e('.div-table').classList.remove('none')
+            var table = e('.table-list')
+            table.querySelector('tbody').innerHTML = `<div class="progress-bar">拼命加载中...<span class="rate">${rate}</span><span class="percent">%</span></div>`
+        }
+    }
+    var options = {
+        method: 'GET',
+        path: urlObj.getRate,
+        reseponseCallback: resCallback,
+    }
+    ajax(options)
+}
+
 // 请求并数据并展示列表
 var loadList = function(pageNum = 1) {
     var table = e('.table-list')
     // 添加 loding ,禁用导出,隐藏说明（第一次加载时，页面会卡死，造成看似无法加载 loding 的现象）
     table.querySelector('tbody').innerHTML = '<div class="loading"></div>'
-    // e('.button-export').classList.add('disabled')
-    e('.initial-explain').classList.add('none')
     // 获取时间参数
     var timeOptions = getOptions()
     var pageSize = e('#pg-seId').value
@@ -383,9 +418,13 @@ var bindExport = function() {
             target.classList.remove('disabled')
             button.querySelector('.mini-loading').remove()
         }
+        var timeOptions = getOptions()
+        var startTime = timeOptions.startTime
+        var endTime = timeOptions.endTime
+        var querystring = `?startTime=${startTime}&endTime=${endTime}`
         var options = {
             method: 'GET',
-            path: urlObj.downloadList,
+            path: urlObj.downloadList + querystring,
             reseponseCallback: resCallback,
         }
         ajax(options)
@@ -428,14 +467,16 @@ var bindTimeLi = function() {
         e('#id-select-time').dataset.day = target.dataset.day
         var ul = target.closest('ul')
         toggleClass(ul, 'none')
-        // 显示时间容器
+        // 显示时间容器，隐藏说明
         e('.div-date-container').classList.remove('none')
+        e('.initial-explain').classList.add('none')
         var div_flatpickr = e('.div-flatpickr')
         var div_date = e('.div-date')
         if (target.dataset.day == 'all') {
             // 是否点击全部
             div_date.innerHTML = '全部'
-            loadList()
+            // 请求数据
+            pollingRate()
         } else if (target.classList.contains('flatpickr-select')) {
             // 是否自定义
             div_flatpickr.classList.remove('hidden')
@@ -457,7 +498,7 @@ var bindTimeLi = function() {
             e('.span-date-start').innerText = getSeveralDays(day).startTime
             e('.span-date-end').innerText = getSeveralDays(day).endTime
             // 非自定义时，立即加载列表
-            loadList()
+            pollingRate()
         }
     })
 }
@@ -499,7 +540,8 @@ var bindTimer = function() {
             // 如果已经选择了截止时间，加载列表
             var endTime = e('#id-date-end').value
             if (endTime) {
-                loadList()
+                pollingRate()
+                // loadList()
             }
         }
     })
@@ -529,7 +571,8 @@ var bindTimer = function() {
             // 如果已经选择了开始时间，加载列表
             var startTime = e('#id-date-start').value
             if (startTime) {
-                loadList()
+                pollingRate()
+                // loadList()
             }
         }
     })

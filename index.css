@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:28:59+08:00
  * @Filename: index.css
- * @Last modified time: 2018-05-22T17:37:13+08:00
+ * @Last modified time: 2018-05-29T15:36:39+08:00
  */
 
 * {
@@ -371,6 +371,21 @@ ul, li {
     left: 25px;
 }
 
+.progress-bar {
+    text-align: center;
+    font-size: 20px;
+}
+
+.rate {
+    font-size: 36px;
+    color: #0976CD;
+}
+
+.percent {
+    font-size: 26px;
+    color: #0976CD;
+}
+
 /*loading--*/
 
 
@@ -449,7 +464,7 @@ ul, li {
     background: #fafafa;
 }
 
-.成交时间, .付款时间 {
+.成交时间, .付款时间, .创建时间 {
     width: 4.9em;
 }
 
@@ -469,7 +484,7 @@ ul, li {
     width: 5em;
 }
 
-.支付宝交易号, .商家名称, .商家电话, .收获地址 {
+.支付宝交易号, .商家名称, .商家电话, .收货地址, .优惠描述 {
     width: 6em;
 }
 
