@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:29:00+08:00
  * @Filename: index.js
- * @Last modified time: 2018-05-29T17:51:19+08:00
+ * @Last modified time: 2018-06-02T12:13:04+08:00
  */
 
 
@@ -312,6 +312,14 @@ var bindPagination = function() {
     })
 }
 
+// 点击查询
+var bindSearch = function() {
+    var search = e('.button-search')
+    bindEvent(search, 'click', function() {
+        pollingRate()
+    })
+}
+
 // 轮询进度
 var pollingRate = function(time=1000) {
     getRate()
@@ -475,8 +483,10 @@ var bindTimeLi = function() {
         if (target.dataset.day == 'all') {
             // 是否点击全部
             div_date.innerHTML = '全部'
+            // 启用查询按钮
+            e('.button-search').classList.remove('disabled')
             // 请求数据
-            pollingRate()
+            // pollingRate()
         } else if (target.classList.contains('flatpickr-select')) {
             // 是否自定义
             div_flatpickr.classList.remove('hidden')
@@ -485,6 +495,8 @@ var bindTimeLi = function() {
                 <span>至</span>
                 <span class="span-date-end"></span>
             `
+            // 禁用查询按钮
+            e('.button-search').classList.add('disabled')
         } else {
             div_date.innerHTML = `
                 <span class="span-date-start"></span>
@@ -498,7 +510,9 @@ var bindTimeLi = function() {
             e('.span-date-start').innerText = getSeveralDays(day).startTime
             e('.span-date-end').innerText = getSeveralDays(day).endTime
             // 非自定义时，立即加载列表
-            pollingRate()
+            // pollingRate()
+            // 启用查询按钮
+            e('.button-search').classList.remove('disabled')
         }
     })
 }
@@ -540,8 +554,10 @@ var bindTimer = function() {
             // 如果已经选择了截止时间，加载列表
             var endTime = e('#id-date-end').value
             if (endTime) {
-                pollingRate()
+                // pollingRate()
                 // loadList()
+                // 启用查询按钮
+                e('.button-search').classList.remove('disabled')
             }
         }
     })
@@ -571,8 +587,10 @@ var bindTimer = function() {
             // 如果已经选择了开始时间，加载列表
             var startTime = e('#id-date-start').value
             if (startTime) {
-                pollingRate()
+                // pollingRate()
                 // loadList()
+                // 启用查询按钮
+                e('.button-search').classList.remove('disabled')
             }
         }
     })
@@ -638,6 +656,7 @@ var bindEvents = function() {
     bindTimer()
     bindMouseleave()
     bindPagination()
+    bindSearch()
 }
 
 var _main = function() {

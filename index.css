@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:28:59+08:00
  * @Filename: index.css
- * @Last modified time: 2018-05-29T15:36:39+08:00
+ * @Last modified time: 2018-06-02T12:10:32+08:00
  */
 
 * {
@@ -305,7 +305,7 @@ ul, li {
     border: 1px solid #E6E6E6;
 }
 
-.button-export {
+.button-export,  .button-search {
     background: #0976CD;
     color: #fff;
     padding: 2px 20px;
@@ -368,7 +368,7 @@ ul, li {
     margin-left: auto;
     position: absolute;
     top: -2px;
-    left: 25px;
+    left: 100px;
 }
 
 .progress-bar {
