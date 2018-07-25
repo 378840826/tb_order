@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:28:59+08:00
  * @Filename: index.css
- * @Last modified time: 2018-06-02T12:10:32+08:00
+ * @Last modified time: 2018-07-24T15:12:11+08:00
  */
 
 * {
@@ -13,9 +13,40 @@ ul, li {
     list-style: none;
 }
 
-.logo {
+a {
+    text-decoration: none;
+}
+
+/*--导航*/
+.div-navigation {
     margin: 30px 0;
 }
+
+.div-navigation ul {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+}
+
+.div-navigation ul li {
+    display: inline-block;
+    position: relative;
+    margin-left: 40px;
+    float: left;
+    font-size: 22px;
+    line-height: 44px;
+}
+
+.div-navigation ul li a{
+    color: #999;
+    padding: 5px 0;
+}
+
+.div-navigation ul li a.active{
+    color: #0976cd;
+    border-bottom: 2px solid;
+}
+/*导航--*/
 
 .button-logout {
     position: fixed;
@@ -33,6 +64,8 @@ ul, li {
 
 .container-head {
     margin: 0 20px;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0);
 }
 
 .disabled.button {
@@ -43,11 +76,11 @@ ul, li {
 
 .home-page {
     display: flex;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
 .none {
-    display: none;
+    display: none !important;
 }
 
 .hidden {
@@ -69,6 +102,7 @@ ul, li {
     width: 400px;
     height: 500px;
     box-shadow: 0px 0px 10px 4px rgba(100, 100, 100, .175);
+    position: relative;
 }
 
 .statement {
@@ -80,7 +114,7 @@ ul, li {
 
 .statement p {
     font-size: 35px;
-    margin: 40px;
+    margin: 60px;
 }
 
 .statement-a {
@@ -95,7 +129,7 @@ ul, li {
 
 .statement-a p {
     font-size: 35px;
-    margin: 15px 27px;
+    margin: 29px 27px;
 }
 
 .statement .font-5 {
@@ -135,8 +169,22 @@ ul, li {
     letter-spacing: 0.5px;
 }
 
-.span-explain span {
+.div-explain.tb-explain .span-explain span {
     color: #FF9900;
+}
+
+.div-explain._1688-explain .span-explain span {
+    color: #FF6000;
+}
+
+.div-explain.jd-explain .span-explain span {
+    color: #F10215;
+}
+
+.div-explain .img-refresh {
+    position: absolute;
+    top: 24px;
+    right: 80px;
 }
 
 .timing {
@@ -476,7 +524,7 @@ ul, li {
     width: 5em;
 }
 
-.商品链接, .店铺链接 {
+.商品链接, .店铺链接, .公司名称, .公司链接 {
     width: 5em;
 }
 
@@ -509,9 +557,20 @@ ul, li {
 }
 
 .img-商品图片 {
-    width: 80px;
+    max-height: 60px;
 }
 
+.th-商品真实单价 {
+    position: relative;
+}
+
+.商品真实单价 .img-explain {
+    position: absolute;
+    width: 1em;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
 /*table--*/
 
 /*--error*/

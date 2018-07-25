@@ -15,16 +15,20 @@
 </head>
 <body>
     <div class="container-head">
-        <div class="">
-            <img class="logo" src="img/logo.png" alt="logo">
-        </div>
         <!-- 导航 -->
+        <div class="div-navigation">
+            <img class="logo" src="img/logo.png" alt="logo">
+            <ul class="ul-nav">
+                <li><a class="nav-a tb active" href="#tb">淘宝订单导出工具</a></li>
+                <li><a class="nav-a _1688" href="#_1688">1688订单导出工具</a></li>
+                <li><a class="nav-a jd" href="#jd">京东订单导出工具</a></li>
+            </ul>
+        </div>
         <div class="home-page">
             <div class="left">
                 <div class="statement">
                     <p><i class="dot"></i>为历史对账而生</p>
                     <p class="font-5"><i class="dot"></i>爬虫实时抓取</p>
-                    <p><i class="dot"></i>不保留订单数据</p>
                     <p><i class="dot"></i>不窃取隐私信息</p>
                     <p class="font-5"><i class="dot"></i>要用就用起来</p>
                 </div>
@@ -33,13 +37,23 @@
                 <div class="div-scan-qrcode">
                     <div class="refresh">
                         <span class="scan-security">手机扫码，安全可靠</span>
-                        <img class="img-refresh" src="img/刷新.png" alt="刷新" title="刷新二维码">
                     </div>
                     <div class="div-qrcode"></div>
-                    <div class="">
-                        <div class="div-explain">
+                    <div class="explain-container">
+                        <div class="div-explain tb-explain none">
                             <img class="img-scan" src="img/扫一扫.png" alt="">
                             <span class="span-explain">本工具无需注册登录，打开<span>手机淘宝</span>或<span>手机天猫</span>扫一扫， 即可查看&下载订单</span>
+                            <img class="img-refresh" src="img/刷新.png" alt="刷新" title="刷新二维码">
+                        </div>
+                        <div class="div-explain _1688-explain none">
+                            <img class="img-scan" src="img/扫一扫1688.png" alt="">
+                            <span class="span-explain">本工具无需注册登录，打开<span>手机淘宝</span>或<span>手机1688</span>扫一扫， 即可查看&下载订单</span>
+                            <img class="img-refresh" src="img/刷新1688.png" alt="刷新" title="刷新二维码">
+                        </div>
+                        <div class="div-explain jd-explain none">
+                            <img class="img-scan" src="img/扫一扫jd.png" alt="">
+                            <span class="span-explain">本工具无需注册登录，打开<span>手机京东</span>扫一扫， 即可查看&下载订单</span>
+                            <img class="img-refresh" src="img/刷新jd.png" alt="刷新" title="刷新二维码">
                         </div>
                         <span class="button-scan button">我已扫码</span>
                     </div>
@@ -91,7 +105,6 @@
             <div class="statement statement-a">
                 <p><i class="dot"></i>为历史对账而生</p>
                 <p class="font-5"><i class="dot"></i>爬虫实时抓取</p>
-                <p><i class="dot"></i>不保留订单数据</p>
                 <p><i class="dot"></i>不窃取隐私信息</p>
                 <p class="font-5"><i class="dot"></i>要用就用起来</p>
             </div>

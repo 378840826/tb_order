@@ -1,32 +1,111 @@
 /**
  * @Date:   2018-04-27T15:29:00+08:00
  * @Filename: index.js
- * @Last modified time: 2018-06-02T12:13:04+08:00
+ * @Last modified time: 2018-07-25T09:56:55+08:00
  */
 
 
 // url
 var urlObj = {
     // 获取二维码的 url
-    getQrcode: 'http://local.workics.cn:3000/mock/51/qrcode',
+    getQrcode: {
+        tb: 'http://local.workics.cn:3000/mock/51/tb/qrcode',
+        _1688: 'http://local.workics.cn:3000/mock/51/1688/qrcode',
+        jd: 'http://local.workics.cn:3000/mock/51/jd/qrcode',
+    },
     // 退出登扫码录
-    logout: 'http://local.workics.cn:3000/mock/51/logout',
+    logout: {
+        tb: 'http://local.workics.cn:3000/mock/51/tb/logout',
+        _1688: 'http://local.workics.cn:3000/mock/51/1688/logout',
+        jd: 'http://local.workics.cn:3000/mock/51/jd/logout',
+    },
     // 获取需要展示的订单表格的数据
-    showList: 'http://local.workics.cn:3000/mock/51/showList',
+    showList: {
+        tb:'http://local.workics.cn:3000/mock/51/tb/showList',
+        _1688: 'http://local.workics.cn:3000/mock/51/1688/showList',
+        jd: 'http://local.workics.cn:3000/mock/51/jd/showList',
+    },
     // 下载(导出)订单数据
-    downloadList: '/service/download',
+    downloadList: {
+        tb: '/service/download',
+        _1688: '/service/download',
+        jd: '/service/download',
+    },
     // 判断是否已经扫码
-    isLogin: 'http://local.workics.cn:3000/mock/51/isLogin',
+    isLogin: {
+        tb: 'http://local.workics.cn:3000/mock/51/tb/isLogin',
+        _1688: 'http://local.workics.cn:3000/mock/51/1688/isLogin',
+        jd: 'http://local.workics.cn:3000/mock/51/jd/isLogin',
+    },
     // 获取数据爬取进度
-    // getRate: '/service/getRate',
-    getRate: 'http://local.workics.cn:3000/mock/51/getRate',
+    getRate: {
+        tb: 'http://local.workics.cn:3000/mock/51/tb/getRate',
+        _1688: 'http://local.workics.cn:3000/mock/51/1688/getRate',
+        jd: 'http://local.workics.cn:3000/mock/51/jd/getRate',
+    },
+}
+
+// 监听 hash
+var bindHash = function() {
+    window.onhashchange = function() {
+        // 退出
+        e('.button-logout').click()
+        showContent(window.location.hash)
+    }
+}
+
+var showContent = function(hash) {
+    var h = hash[0]=='#' ? hash.slice(1) : hash
+    var className = '.ul-nav>li>.' + h
+    var item = document.querySelector(className)
+    loadContent(item)
+}
+
+var loadContent = function(item) {
+    removeClassAll('active')
+    item.classList.add('active')
+    // 加载二维码
+    getQrcode()
+    // 改文案
+    var container = e('.explain-container')
+    var tb = find(container, '.tb-explain')
+    var _1688 = find(container, '._1688-explain')
+    var jd = find(container, '.jd-explain')
+    if (item.classList.contains('tb')) {
+        tb.classList.remove('none')
+        _1688.classList.add('none')
+        jd.classList.add('none')
+    } else if (item.classList.contains('_1688')) {
+        tb.classList.add('none')
+        _1688.classList.remove('none')
+        jd.classList.add('none')
+    } else if (item.classList.contains('jd')) {
+        tb.classList.add('none')
+        _1688.classList.add('none')
+        jd.classList.remove('none')
+    }
+}
+
+// 导航的路由控制
+var route = function() {
+    var currentHash = window.location.hash
+    var defaultHash = $('.ul-nav').find('li a').eq(0).attr('href')
+    // 如果当前存在 hash 且 不是默认的 hash
+    if (currentHash && currentHash != defaultHash) {
+        showContent(currentHash)
+    } else {
+        showContent(defaultHash)
+        window.history.replaceState(null, "", defaultHash)
+    }
 }
 
 // 点击刷新(获取二维码)
-var bindLogin = function() {
-    var refresh = e('.img-refresh')
-    bindEvent(refresh, 'click', function(event) {
-        getQrcode()
+var bindRefreshQrcode = function() {
+    var container = e('.explain-container')
+    bindEvent(container, 'click', function(event) {
+        if (event.target.classList.contains('img-refresh')) {
+            getQrcode()
+        }
     })
 }
 
@@ -46,9 +125,10 @@ var getQrcode = function() {
             alert('获取二维码失败')
         }
     }
+    var hash = window.location.hash.slice(1)
     var options = {
         method: 'GET',
-        path: urlObj.getQrcode,
+        path: urlObj.getQrcode[hash],
         reseponseCallback: resCallback,
     }
     ajax(options)
@@ -61,10 +141,10 @@ var bindScan = function() {
 }
 
 // 轮询是否已经登录（扫码）
-var polling = function(num=1000) {
+var polling = function(millisecond=2000) {
     timer2 = setInterval(function() {
         isLogin()
-    }, num)
+    }, millisecond)
 }
 
 // 点击退出
@@ -81,13 +161,27 @@ var bindLogout = function() {
                 alert('网络错误')
             }
         }
+        var hash = window.location.hash.slice(1)
         var options = {
             method: 'GET',
-            path: urlObj.logout,
+            path: urlObj.logout[hash],
             reseponseCallback: resCallback,
         }
         ajax(options)
     })
+}
+
+// 在对象中创建用于展示的相应的 key 、value
+var createTdShow = function(obj, key, num) {
+    var showKey = key + 'show'
+    if (obj[key] != undefined) {
+        var sliceValue = obj[key].slice(0, num)
+        if (sliceValue != obj[key]) {
+            obj[showKey] = sliceValue + '...'
+        } else {
+            obj[showKey] = sliceValue
+        }
+    }
 }
 
 // 创建表头
@@ -96,9 +190,16 @@ var createTableHead = function(list) {
     var trHead = ''
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i]
-        var t = `
+        // "商品真实单价" 增加说明
+        if (key == '商品真实单价') {
+            var t = `
+            <th class="th-商品真实单价"><span class="${key}"><img title="商品真实单价=（商品总价-运费-商品优惠-店铺优惠）/商品数量" class="img-explain" src=./img/说明.svg>${key}</span></th>
+            `
+        } else {
+            var t = `
             <th><span class="${key}">${key}</span></th>
-        `
+            `
+        }
         trHead += t
     }
     var html = `<tr class="table-head">${trHead}</tr>`
@@ -113,31 +214,33 @@ var createTable = function(list) {
     for (var i = 0; i < length; i++) {
         var l = list[i]
         // 生成用于显示的数据
-        l['商品名称show'] = l['商品名称'].length < 10 ? l['商品名称'] : l['商品名称'].slice(0, 8) + '...'
-        l['商品链接show'] = l['商品链接'].length < 20 ? l['商品链接'] : l['商品链接'].slice(0, 17) + '...'
-        l['店铺链接show'] = l['店铺链接'].length < 20 ? l['店铺链接'] : l['店铺链接'].slice(0, 17) + '...'
-        l['规格属性1show'] = l['规格属性1'].length < 10 ? l['规格属性1'] : l['规格属性1'].slice(0, 8) + '...'
-        l['规格属性2show'] = l['规格属性2'].length < 10 ? l['规格属性2'] : l['规格属性2'].slice(0, 8) + '...'
-        l['买家旺旺show'] = l['买家旺旺'].length < 10 ? l['买家旺旺'] : l['买家旺旺'].slice(0, 8) + '...'
-        l['支付宝交易号show'] = l['支付宝交易号'].length < 10 ? l['支付宝交易号'] : l['支付宝交易号'].slice(0, 10) + '...'
-        l['物流公司show'] = l['物流公司'].length < 6 ? l['物流公司'] : l['物流公司'].slice(0, 4) + '...'
-        l['买家留言show'] = l['买家留言'].length < 10 ? l['买家留言'] : l['买家留言'].slice(0, 8) + '...'
-        l['收货地址show'] = l['收货地址'].length < 10 ? l['收货地址'] : l['收货地址'].slice(0, 8) + '...'
-        l['优惠描述show'] = l['优惠描述'].length < 10 ? l['优惠描述'] : l['优惠描述'].slice(0, 8) + '...'
+        createTdShow(l, '商品名称', 10)
+        createTdShow(l, '商品链接', 20)
+        createTdShow(l, '店铺链接', 20)
+        createTdShow(l, '规格属性1', 10)
+        createTdShow(l, '规格属性2', 10)
+        createTdShow(l, '买家旺旺', 10)
+        createTdShow(l, '支付宝交易号', 10)
+        createTdShow(l, '物流公司', 6)
+        createTdShow(l, '买家留言', 10)
+        createTdShow(l, '收货地址', 10)
+        createTdShow(l, '优惠描述', 10)
+        createTdShow(l, '公司链接', 20)
         // 生成 html
         var tr = ''
+        var longKeyArr = ['商品名称', '规格属性1', '规格属性2', '买家旺旺', '支付宝交易号', '物流公司', '买家留言', '店铺链接', '收货地址', '优惠描述']
+        var nowrapKeyArr = ['商品价格', '商品数量', '商品优惠（C店）', '店铺优惠（天猫）', '商品真实单价', '运费', '商品总价', '订单总价', '实付款']
+        var linkKeyArr = ['商品链接', '公司链接']
         for (var j = 0; j < keys.length; j++) {
             var key = keys[j]
             var value = l[key]
             if (key.slice(-4) == 'show') {
                 continue
-            } else if (key == '商品名称' || key == '规格属性1' || key == '规格属性2' || key == '买家旺旺' || key == '支付宝交易号' || key == '物流公司' || key == '买家留言' || key == '店铺链接' || key == '收货地址' || key == '优惠描述') {
+            } else if (longKeyArr.includes(key)) {
                 // 太长 需要 hover 效果的
                 var k = key + 'show'
-                // 半角空格替换为全角空格，不然 title 显示错误
-                var v = value.replace(/ /g, '　')
                 var t = `
-                <td title=${v}>
+                <td title="${value}">
                     ${l[k]}
                 </td>
                 `
@@ -149,14 +252,17 @@ var createTable = function(list) {
                 </td>
                 `
                 tr += t
-            } else if (key == '商品链接') {
+            } else if (linkKeyArr.includes(key)) {
+                // 链接
+                var linkKey = key + 'show'
                 var t = `
                 <td>
-                    <a target="_blank" href=${value || ''} title=${value || ''}>${l['商品链接show'] || ''}</a>
+                    <a target="_blank" href=${value || ''} title=${value || ''}> ${l[linkKey] || ''} </a>
                 </td>
                 `
                 tr += t
-            } else if (key == '商品价格' || key == '商品数量' || key == '商品优惠（C店）' || key == '店铺优惠（天猫）' || key == '商品真实单价' || key == '运费' || key == '商品总价' || key == '订单总价' || key == '实付款') {
+            } else if (nowrapKeyArr.includes(key)) {
+                // 不换行的
                 var t = `
                 <td nowrap>${value || ''}</td>
                 `
@@ -187,8 +293,8 @@ var loadError = function(error = '网络有点问题，请稍后重试') {
     div_error.classList.remove('none')
 }
 
-// 生成并展示列表数据
-var showList = function(list) {
+// 生成并展示列表数据，用 hash 区分是哪个商城的数据
+var showList = function(list, hash) {
     // 隐藏错误提示
     e('.div-error').classList.add('none')
     // 显示数量
@@ -345,9 +451,10 @@ var getRate = function() {
             table.querySelector('tbody').innerHTML = `<div class="progress-bar">拼命加载中...<span class="rate">${rate}</span><span class="percent">%</span></div>`
         }
     }
+    var hash = window.location.hash.slice(1)
     var options = {
         method: 'GET',
-        path: urlObj.getRate,
+        path: urlObj.getRate[hash],
         reseponseCallback: resCallback,
     }
     ajax(options)
@@ -361,7 +468,8 @@ var loadList = function(pageNum = 1) {
     // 获取时间参数
     var timeOptions = getOptions()
     var pageSize = e('#pg-seId').value
-    var baseurl = urlObj.showList
+    var hash = window.location.hash.slice(1)
+    var baseurl = urlObj.showList[hash]
     var url = baseurl + `?pageNum=${pageNum}&pageSize=${pageSize}&startTime=${timeOptions.startTime}&endTime=${timeOptions.endTime}`
     var resCallback = function(request) {
         e('.loading').remove()
@@ -380,7 +488,7 @@ var loadList = function(pageNum = 1) {
                 loadError('无订单记录，请重新选择周期')
             } else {
                 // 生成并加载列表
-                showList(list)
+                showList(list, hash)
                 // 显示数目
                 var sum = e('.div-sum')
                 sum.querySelector('span').innerText = res.total || 0
@@ -430,9 +538,10 @@ var bindExport = function() {
         var startTime = timeOptions.startTime
         var endTime = timeOptions.endTime
         var querystring = `?startTime=${startTime}&endTime=${endTime}`
+        var hash = window.location.hash.slice(1)
         var options = {
             method: 'GET',
-            path: urlObj.downloadList + querystring,
+            path: urlObj.downloadList[hash] + querystring,
             reseponseCallback: resCallback,
         }
         ajax(options)
@@ -629,11 +738,13 @@ var isLogin = function() {
             e('.timing').classList.remove('none')
             e('.initial-explain').classList.remove('none')
             e('.home-page').classList.add('none')
+            e('.ul-nav').classList.add('none')
         }
     }
+    var hash = window.location.hash.slice(1)
     var options = {
         method: 'GET',
-        path: urlObj.isLogin,
+        path: urlObj.isLogin[hash],
         reseponseCallback: resCallback,
     }
     ajax(options)
@@ -647,7 +758,8 @@ var autoRefreshQrcode = function(millisecond=60000) {
 }
 
 var bindEvents = function() {
-    bindLogin()
+    bindHash()
+    bindRefreshQrcode()
     bindLogout()
     bindExport()
     bindScan()
@@ -660,10 +772,10 @@ var bindEvents = function() {
 }
 
 var _main = function() {
+    route()
     bindEvents()
-    getQrcode()
     autoRefreshQrcode(90000)
-    polling(1000)
+    polling(1500)
 }
 
 _main()

@@ -41,6 +41,20 @@ var find = function(element, selector) {
     return element.querySelector(selector)
 }
 
+// 删除所有 class
+var removeClassAll = function(className, element) {
+    var selector = '.' + className
+    if (element) {
+        var elements = element.querySelectorAll(selector)
+    } else {
+        var elements = document.querySelectorAll(selector)
+    }
+    for (var i = 0; i < elements.length; i++) {
+        var e = elements[i]
+        e.classList.remove(className)
+    }
+}
+
 //ajax函数
 var ajax = function(options) {
     var opt = {
