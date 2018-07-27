@@ -1,7 +1,7 @@
 /**
  * @Date:   2018-04-27T15:29:00+08:00
  * @Filename: index.js
- * @Last modified time: 2018-07-25T09:56:55+08:00
+ * @Last modified time: 2018-07-27T09:50:39+08:00
  */
 
 
@@ -293,8 +293,8 @@ var loadError = function(error = '网络有点问题，请稍后重试') {
     div_error.classList.remove('none')
 }
 
-// 生成并展示列表数据，用 hash 区分是哪个商城的数据
-var showList = function(list, hash) {
+// 生成并展示列表数据
+var showList = function(list) {
     // 隐藏错误提示
     e('.div-error').classList.add('none')
     // 显示数量
@@ -483,15 +483,16 @@ var loadList = function(pageNum = 1) {
             // 本地存储
             sessionStorage.ordersList = JSON.stringify(list)
             // 是否有数据
-            if (!list) {
+            var sum = e('.div-sum')
+            if (list.length == 0) {
                 // 查询无结果提示
                 loadError('无订单记录，请重新选择周期')
+                sum.querySelector('span').innerText = 0
             } else {
                 // 生成并加载列表
-                showList(list, hash)
+                showList(list)
                 // 显示数目
-                var sum = e('.div-sum')
-                sum.querySelector('span').innerText = res.total || 0
+                sum.querySelector('span').innerText = res.total || '-'
                 // 加载分页
                 loadPagination(res, 4)
                 // 设置表格容器高度
@@ -614,8 +615,8 @@ var bindTimeLi = function() {
             `
             div_flatpickr.classList.add('hidden')
             div_date.classList.remove('none')
-            // 计算开始时间和截至时间 （-1 因为包括当天）
-            var day = target.dataset.day - 1
+            // 计算开始时间和截至时间
+            var day = target.dataset.day
             e('.span-date-start').innerText = getSeveralDays(day).startTime
             e('.span-date-end').innerText = getSeveralDays(day).endTime
             // 非自定义时，立即加载列表
